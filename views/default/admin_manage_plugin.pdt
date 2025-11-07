@@ -1,7 +1,7 @@
 
         <?php
         $this->Widget->clear();
-        $this->Widget->create($this->_('MsEntraId.name', true));
+        $this->Widget->create($this->_('GoogleWorkspace.name', true));
         $this->Form->create();
         ?>
         <div class="inner">
@@ -9,26 +9,20 @@
                 <ul>
                     <li>
                         <?php
-                        $this->Form->fieldText('tenant_id', $tenant_id, ['id' => 'tenant_id']);
-                        $this->Form->label($this->_('MsEntraIdManagePlugin.index.tenant_id', true), 'tenant_id', ['class' => 'inline']);
-                        ?>
-                    </li>
-                    <li>
-                        <?php
                         $this->Form->fieldText('client_id', $client_id, ['id' => 'client_id']);
-                        $this->Form->label($this->_('MsEntraIdManagePlugin.index.client_id', true), 'client_id', ['class' => 'inline']);
+                        $this->Form->label($this->_('GoogleWorkspaceManagePlugin.index.client_id', true), 'client_id', ['class' => 'inline']);
                         ?>
                     </li>
                     <li>
                         <?php
                         $this->Form->fieldPassword('client_secret', $client_secret, ['id' => 'client_secret']);
-                        $this->Form->label($this->_('MsEntraIdManagePlugin.index.client_secret', true), 'client_secret', ['class' => 'inline']);
+                        $this->Form->label($this->_('GoogleWorkspaceManagePlugin.index.client_secret', true), 'client_secret', ['class' => 'inline']);
                         ?>
                     </li>
                     <li>
                         <?php
                         $this->Form->fieldCheckbox('replace_admin_login_page', null, (($replace_admin_login_page ?? 'off') == 'on'), ['id' => 'replace_admin_login_page']);
-                        $this->Form->label($this->_('MsEntraIdManagePlugin.index.replace_admin_login_page', true), 'replace_admin_login_page', ['class' => 'inline']);
+                        $this->Form->label($this->_('GoogleWorkspaceManagePlugin.index.replace_admin_login_page', true), 'replace_admin_login_page', ['class' => 'inline']);
                         ?>
                     </li>
                 </ul>
@@ -36,7 +30,7 @@
 
             <div class="button_row">
                 <?php
-                $this->Form->fieldSubmit('save', $this->_('MsEntraIdManagePlugin.index.save', true), ['class' => 'btn btn-primary pull-right']);
+                $this->Form->fieldSubmit('save', $this->_('GoogleWorkspaceManagePlugin.index.save', true), ['class' => 'btn btn-primary pull-right']);
                 ?>
             </div>
         </div>

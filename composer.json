@@ -1,6 +1,6 @@
 {
-    "name": "speed-cloud/ms_entra_id",
-    "description": "Allow admins to log in to their Blesta account via Microsoft Entra ID.",
+    "name": "speed-cloud/google_workspace",
+    "description": "Allow admins to log in to their Blesta account via Google Workspace.",
     "license": "GPL-3.0-only",
     "type": "blesta-plugin",
     "require": {

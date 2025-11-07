@@ -16,12 +16,12 @@ class AdminManagePlugin extends AppController
         // Require login
         $this->parent->requireLogin();
 
-        Language::loadLang('ms_entra_id_manage_plugin', null, PLUGINDIR . 'ms_entra_id' . DS . 'language' . DS);
+        Language::loadLang('google_workspace_manage_plugin', null, PLUGINDIR . 'google_workspace' . DS . 'language' . DS);
 
         $this->plugin_id = $this->get[0] ?? null;
 
         // Set the page title
-        $this->parent->structure->set('page_title', Language::_('MsEntraId.name', true));
+        $this->parent->structure->set('page_title', Language::_('GoogleWorkspace.name', true));
     }
 
     /**
@@ -36,24 +36,18 @@ class AdminManagePlugin extends AppController
         }
 
         // Get settings
-        $tenant_id = $this->Companies->getSetting(Configure::get('Blesta.company_id'), 'MsEntraId.tenant_id');
-        $client_id = $this->Companies->getSetting(Configure::get('Blesta.company_id'), 'MsEntraId.client_id');
-        $client_secret = $this->Companies->getSetting(Configure::get('Blesta.company_id'), 'MsEntraId.client_secret');
-        $replace_admin_login_page = $this->Companies->getSetting(Configure::get('Blesta.company_id'), 'MsEntraId.replace_admin_login_page');
+        $client_id = $this->Companies->getSetting(Configure::get('Blesta.company_id'), 'GoogleWorkspace.client_id');
+        $client_secret = $this->Companies->getSetting(Configure::get('Blesta.company_id'), 'GoogleWorkspace.client_secret');
+        $replace_admin_login_page = $this->Companies->getSetting(Configure::get('Blesta.company_id'), 'GoogleWorkspace.replace_admin_login_page');
 
         $vars = [
             'plugin_id' => $this->plugin_id,
-            'tenant_id' => $tenant_id->value ?? '',
             'client_id' => $client_id->value ?? '',
             'client_secret' => $client_secret->value ?? '',
             'replace_admin_login_page' => $replace_admin_login_page->value ?? 'off',
         ];
 
         if (!empty($this->post)) {
-            if (!isset($this->post['tenant_id'])) {
-                $this->post['tenant_id'] = '';
-            }
-            
             if (!isset($this->post['client_id'])) {
                 $this->post['client_id'] = '';
             }
@@ -68,34 +62,28 @@ class AdminManagePlugin extends AppController
             
             $this->Companies->setSetting(
                 Configure::get('Blesta.company_id'),
-                'MsEntraId.tenant_id',
-                $this->post['tenant_id']
-            );
-
-            $this->Companies->setSetting(
-                Configure::get('Blesta.company_id'),
-                'MsEntraId.client_id',
+                'GoogleWorkspace.client_id',
                 $this->post['client_id']
             );
 
             $this->Companies->setSetting(
                 Configure::get('Blesta.company_id'),
-                'MsEntraId.client_secret',
+                'GoogleWorkspace.client_secret',
                 $this->post['client_secret']
             );
 
             $this->Companies->setSetting(
                 Configure::get('Blesta.company_id'),
-                'MsEntraId.replace_admin_login_page',
+                'GoogleWorkspace.replace_admin_login_page',
                 $this->post['replace_admin_login_page']
             );
 
-            $this->parent->flashMessage('message', Language::_('MsEntraIdManagePlugin.!success.settings_updated', true));
+            $this->parent->flashMessage('message', Language::_('GoogleWorkspaceManagePlugin.!success.settings_updated', true));
             $this->redirect($this->base_uri . 'settings/company/plugins/manage/' . $this->plugin_id);
         }
 
         // Set the view to render for all actions under this controller
-        $this->view->setView(null, 'MsEntraId.default');
+        $this->view->setView(null, 'GoogleWorkspace.default');
 
         return $this->partial('admin_manage_plugin', $vars);
     }

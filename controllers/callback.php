@@ -1,6 +1,6 @@
 <?php
 /**
- * Microsoft Entra ID plugin handler
+ * Google Workspace plugin handler
  *
  * @copyright Copyright (c) 2025, SPEED CLOUD
  * @license GPL
@@ -15,11 +15,10 @@ class Callback extends AppController
     {
         $this->uses(['Record', 'Session']);
         
-        $tenant_id = $this->Companies->getSetting($this->company_id, 'MsEntraId.tenant_id')->value ?? '';
-        $client_id = $this->Companies->getSetting($this->company_id, 'MsEntraId.client_id')->value ?? '';
-        $client_secret = $this->Companies->getSetting($this->company_id, 'MsEntraId.client_secret')->value ?? '';
+        $client_id = $this->Companies->getSetting($this->company_id, 'GoogleWorkspace.client_id')->value ?? '';
+        $client_secret = $this->Companies->getSetting($this->company_id, 'GoogleWorkspace.client_secret')->value ?? '';
 
-        $ch = curl_init('https://login.microsoftonline.com/' . $tenant_id . '/oauth2/v2.0/token');
+        $ch = curl_init('https://oauth2.googleapis.com/token');
         curl_setopt_array($ch, [
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
@@ -28,7 +27,7 @@ class Callback extends AppController
                 'client_id' => $client_id,
                 'client_secret' => $client_secret,
                 'code' => $this->get['code'],
-                'redirect_uri' => $this->base_url . 'plugin/ms_entra_id/callback'
+                'redirect_uri' => $this->base_url . 'plugin/google_workspace/callback'
             ]),
         ]);
         
@@ -36,10 +35,10 @@ class Callback extends AppController
         curl_close($ch);
 
         if (!$token) {
-            return $this->redirect($this->base_uri . 'plugin/ms_entra_id/login');
+            return $this->redirect($this->base_uri . 'plugin/google_workspace/login');
         }
         
-        $ch = curl_init('https://graph.microsoft.com/oidc/userinfo');
+        $ch = curl_init('https://www.googleapis.com/oauth2/v1/userinfo');
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $token]

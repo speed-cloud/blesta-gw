@@ -1,6 +1,6 @@
 <?php
 /**
- * Microsoft Entra ID plugin handler
+ * Google Workspace plugin handler
  *
  * @copyright Copyright (c) 2025, SPEED CLOUD
  * @license GPL
@@ -14,14 +14,13 @@ class Login extends AppController
     public function index()
     {
         // Get settings
-        $tenant_id = $this->Companies->getSetting($this->company_id, 'MsEntraId.tenant_id')->value ?? '';
-        $client_id = $this->Companies->getSetting($this->company_id, 'MsEntraId.client_id')->value ?? '';
+        $client_id = $this->Companies->getSetting($this->company_id, 'GoogleWorkspace.client_id')->value ?? '';
         
-        $this->redirect('https://login.microsoftonline.com/' . $tenant_id . '/oauth2/v2.0/authorize?' . http_build_query([
+        $this->redirect('https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query([
             'client_id' => $client_id,
             'response_type' => 'code',                                                                                                                                        
             'scope' => 'openid email profile',                                                                                                                  
-            'redirect_uri' => $this->base_url . 'plugin/ms_entra_id/callback',                                                                                                       
+            'redirect_uri' => $this->base_url . 'plugin/google_workspace/callback',                                                                                                       
         ]));
     }
 }
